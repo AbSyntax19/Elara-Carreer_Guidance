@@ -21,9 +21,13 @@ class StudentProfile(BaseModel):
 app = FastAPI(title="AI Career Advisor API")
 
 # Enable CORS
+from fastapi.middleware.cors import CORSMiddleware
+
 origins = [
-    "http://127.0.0.1:5500",  # Your frontend origin
+    "http://127.0.0.1:5500",  # your frontend
+    "http://localhost:5500",
 ]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
