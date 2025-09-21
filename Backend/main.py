@@ -1,8 +1,9 @@
 # Install dependencies:
-# pip install fastapi uvicorn google-genai
+# pip install fastapi uvicorn google-genai pydantic
 
 import os
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 from google import genai
@@ -19,8 +20,20 @@ class StudentProfile(BaseModel):
 # Initialize FastAPI app
 app = FastAPI(title="AI Career Advisor API")
 
+# Enable CORS
+origins = [
+    "http://127.0.0.1:5500",  # Your frontend origin
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Initialize Gemini client
-client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+client = genai.Client(api_key="AIzaSyApTBe6jh3G3sne4WI6yabuDDjWBOZIeZo")
 model = "gemini-2.5-flash-lite"
 
 @app.post("/career-advice")
